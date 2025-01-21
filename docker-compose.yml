@@ -29,7 +29,7 @@ services:
       KC_LOG_LEVEL: INFO
       KC_HEALTH_ENABLED: true
     volumes:
-      - ${PWD}/config/keycloak/realm.json:/opt/keycloak/data/import/realm-export.json:ro
+      - ./config/keycloak/realm.json:/opt/keycloak/data/import/realm-export.json:ro
     ports:
       - "7000:8080"
     command:
@@ -41,7 +41,7 @@ services:
   krakend:
     image: devopsfaith/krakend:watch
     volumes:
-      - ${PWD}/config/krakend:/etc/krakend:ro
+      - ./config/krakend:/etc/krakend:ro
     ports:
       - "1234:1234"
       - "8080:8080"

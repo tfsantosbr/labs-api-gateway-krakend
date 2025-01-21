@@ -1,6 +1,9 @@
-# labs-kong
+# KrakenD
 
-```bash
-jwt key: secret
-kid: default
-```
+## Taks
+
+- [Tasks Executadas](./docs/TASKS.md)
+
+## Referências
+
+- [Krakend - Documentação Oficial](https://www.krakend.io/)

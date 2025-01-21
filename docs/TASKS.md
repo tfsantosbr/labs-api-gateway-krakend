@@ -18,7 +18,7 @@
 
 - [x] Estrutura
 
-  - [ ] Provisionar o Krakend no Kubernetes
+  - [x] Provisionar o Krakend no Docker Compose
 
 - [ ] Funcionalidades
 
@@ -29,3 +29,8 @@
   - [x] Adicionar Autorização (Keycloak)
   - [ ] Adicionar uma funcionalidade de BFF entre Orders e Products
   - [ ] Adicionar Monitoramento
+    - [x] Métricas
+    - [x] Traces
+    - [ ] Logs
+      - [ ] Tentativa com Open Telemetry sem sucesso
+      - [ ] Tentativa com Fluent Bit sem sucesso
