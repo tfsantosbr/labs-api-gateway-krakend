@@ -1,0 +1,179 @@
+{
+  "$schema": "https://www.krakend.io/schema/v2.8/krakend.json",
+  "version": 3,
+  "timeout": "2s",
+  "output_encoding": "no-op",
+  "endpoints": [
+    {
+      "endpoint": "/orders/v1/orders",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/orders",
+          "method": "GET",
+          "host": ["http://orders-api:8080"]
+        }
+      ]
+    },
+    {
+      "endpoint": "/orders/v1/orders/{id}",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/orders/{id}",
+          "method": "GET",
+          "host": ["http://orders-api:8080"]
+        }
+      ]
+    },
+    {
+      "endpoint": "/orders/v1/orders",
+      "method": "POST",
+      "backend": [
+        {
+          "url_pattern": "/orders",
+          "method": "POST",
+          "host": ["http://orders-api:8080"]
+        }
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://keycloak:8080/realms/eventflix/protocol/openid-connect/certs",
+          "disable_jwk_security": true,
+          "operation_debug": true,
+          "roles_key": "realm_access.roles",
+          "roles_key_is_nested": true,
+          "roles": ["admin"]
+        }
+      }
+    },
+    {
+      "endpoint": "/orders/v1/orders/{id}",
+      "method": "PUT",
+      "backend": [
+        {
+          "url_pattern": "/orders/{id}",
+          "method": "PUT",
+          "host": ["http://orders-api:8080"]
+        }
+      ]
+    },
+    {
+      "endpoint": "/orders/v1/orders/{id}",
+      "method": "DELETE",
+      "backend": [
+        {
+          "url_pattern": "/orders/{id}",
+          "method": "DELETE",
+          "host": ["http://orders-api:8080"]
+        }
+      ]
+    },
+    {
+      "endpoint": "/products/v1/products",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/products",
+          "method": "GET",
+          "host": ["http://products-api:8080"]
+        }
+      ]
+    },
+    {
+      "endpoint": "/products/v1/products/{id}",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/products/{id}",
+          "method": "GET",
+          "host": ["http://products-api:8080"]
+        }
+      ]
+    },
+    {
+      "endpoint": "/products/v1/products",
+      "method": "POST",
+      "backend": [
+        {
+          "url_pattern": "/products",
+          "method": "POST",
+          "host": ["http://products-api:8080"]
+        }
+      ]
+    },
+    {
+      "endpoint": "/products/v1/products/{id}",
+      "method": "PUT",
+      "backend": [
+        {
+          "url_pattern": "/products/{id}",
+          "method": "PUT",
+          "host": ["http://products-api:8080"]
+        }
+      ]
+    },
+    {
+      "endpoint": "/products/v1/products/{id}",
+      "method": "DELETE",
+      "backend": [
+        {
+          "url_pattern": "/products/{id}",
+          "method": "DELETE",
+          "host": ["http://products-api:8080"]
+        }
+      ]
+    },
+    {
+      "endpoint": "/products/v1/categories",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/products/categories",
+          "method": "GET",
+          "host": ["http://products-api:8080"]
+        }
+      ]
+    }
+  ],
+  "extra_config": {
+    "telemetry/opentelemetry": {
+      "service_name": "krakend-api-gateway",
+      "service_version": "1.0.0",
+      "exporters": {
+        "otlp": [
+          {
+            "name": "local-otlp-collector",
+            "host": "otel-collector",
+            "port": 4317,
+            "use_http": false
+          }
+        ]
+      },
+      "layers": {
+        "backend": {
+          "metrics": {
+            "round_trip": true,
+            "read_payload": true,
+            "detailed_connection": true
+          },
+          "traces": {
+            "round_trip": true,
+            "read_payload": true,
+            "detailed_connection": true
+          }
+        }
+      }
+    },
+    "telemetry/logging": {
+      "level": "INFO",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true
+    },
+    "telemetry/logstash": {
+      "enabled": true
+    }
+  }
+}
